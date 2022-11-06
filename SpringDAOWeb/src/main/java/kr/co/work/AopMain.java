@@ -48,8 +48,8 @@ class MyAdvice {
 	void invoke(Method m, Object obj, Object... args) throws Exception {
 		
 //		if(matches(m))	System.out.println("[이전 before] {");	//e로시작하는 메서드에만 호출됨
-		//핵심 기능에 Transactional 어노테이션이 설정되어 있는 경우에만 before/after를 출력ㄱ
-		if(m.getAnnotation(Transactional.class) != null)
+		//핵심 기능에 Transactional 어노테이션이 설정되어 있는 경우에만 before/after를 출력
+		if(m.getAnnotation(Transactional.class) != null)								//조건식 == 포인트컷
 			System.out.println("[이전 before] {");
 		
 		m.invoke(obj,args);						// ezen1(), ezen2(), itezen1() 호출 가능

@@ -33,10 +33,6 @@ public class BoardController {
 		if(!loginCheck(request))
 			return "redirect:/login/login?toURL=" + request.getRequestURL();
 		try {
-			
-			if(page == null) page=1;
-			if (pageSize==null) pageSize=10;
-			
 			int totalCnt = boardService.getcount();
 			m.addAttribute("totalCnt", totalCnt);
 			
@@ -48,6 +44,7 @@ public class BoardController {
 			
 			Map map = new HashMap();
 			map.put("offset", (page-1)*pageSize);
+			map.put("pageSize", pageSize);
 
 			List<BoardDto> list = boardService.getPage(map);
 

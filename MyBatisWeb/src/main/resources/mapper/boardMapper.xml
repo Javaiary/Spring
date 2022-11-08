@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+  <!-- 쿼리문이 들어가기 때문에 오류가 가장 많이 남 -->
+<mapper namespace="kr.co.heart.dao.BoardMapper">
+
+
+	<!-- prepareStatement로 만들었던 부분들을 mapper 형식으로 바꿔주기 -->
+	<sql id= "selectFromBoard">
+		select bno, title, content, writer, view_cnt, comment_cnt, reg_date 
+		from t_board
+	</sql>
+	
+	<select id="select" parameterType="int" resultType="BoardDto">
+		<include refid="selectFromBoard"/>
+		<!-- = prepareStatement 구문 : 특정 게시글의~~~  -->
+		where bno = #{bno}
+		
+	</select>
+	
+	<delete id= "deleteAll">
+		delete from t_board
+	</delete>
+	
+	<insert id="insert" parameterType="BoardDto">
+		insert into t_board 
+			(title, content, writer)
+		values
+			(#{title}, #{content}, #{writer});
+	</insert>
+	
+	<select id = "count" resultType="int">
+		select count(*) from t_board;
+	</select>
+	
+	<select id = "selectPage" parameterType="map" resultType="BoardDto">
+		<include refid="selectFromBoard"/>
+			order by reg_date desc, bno desc
+			limit #{pageSize} offset #{offset};
+	</select>
+	
+</mapper>

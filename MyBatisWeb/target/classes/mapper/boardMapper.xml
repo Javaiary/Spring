@@ -4,6 +4,8 @@
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
   
   <!-- 쿼리문이 들어가기 때문에 오류가 가장 많이 남 -->
+  <!-- namespace : 주로 패키지 명으로 많이 지정. 
+  다른 경로와 겹치지만 않으면 되고, 해당기능을 사용할 impl 클래스에서 nampspace만 같게 지정해 주면 됨 -->
 <mapper namespace="kr.co.heart.dao.BoardMapper">
 
 
@@ -28,17 +30,23 @@
 		insert into t_board 
 			(title, content, writer)
 		values
-			(#{title}, #{content}, #{writer});
+			(#{title}, #{content}, #{writer})
 	</insert>
 	
 	<select id = "count" resultType="int">
-		select count(*) from t_board;
+		select count(*) from t_board
 	</select>
 	
 	<select id = "selectPage" parameterType="map" resultType="BoardDto">
 		<include refid="selectFromBoard"/>
 			order by reg_date desc, bno desc
-			limit #{pageSize} offset #{offset};
+			limit #{pageSize} offset #{offset}
 	</select>
+	
+	<update id="increaseViewCnt" parameterType="int"> 
+		update t_board 
+		set view_cnt = view_cnt +1
+		where bno = #{bno}
+	</update>
 	
 </mapper>

@@ -16,13 +16,24 @@ public class BoardServiceImpl implements BoardService{
 
 	@Override
 	public List<BoardDto> getPage(Map map) throws Exception {
-		// TODO Auto-generated method stub
+		//(select)
 		return boardDao.selectPage(map);
 	}
 
 	@Override
 	public int getcount() throws Exception {
-		// TODO Auto-generated method stub
+		//(select)
 		return boardDao.count();
+	}
+
+	@Override
+	public BoardDto read(Integer bno) throws Exception {
+		//게시글 조회 (select문)
+		BoardDto boardDto = boardDao.select(bno);
+		
+		//비즈니스 로직 추가 (조회수 증가)
+		boardDao.increaseViewCnt(bno);
+		
+		return boardDto;
 	}
 }

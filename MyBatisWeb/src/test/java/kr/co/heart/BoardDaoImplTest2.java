@@ -21,7 +21,7 @@ public class BoardDaoImplTest2 {
 		boardDao.deleteAll();
 		
 		for(int i = 1; i <= 250; i++) {
-			BoardDto boardDto= new BoardDto("Pioneering"+i, "Accion!"+i, "sia");
+			BoardDto boardDto= new BoardDto("Pioneering"+i, "Accion!"+i, "ezen");
 			boardDao.insert(boardDto);
 		}
 		

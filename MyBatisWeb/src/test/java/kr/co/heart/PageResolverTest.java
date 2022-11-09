@@ -47,7 +47,7 @@ public class PageResolverTest {
 		System.out.println("pr = " +pr);
 		System.out.println();
 		
-		assertTrue(pr.getBeginPage()==1);
-		assertTrue(pr.getEndPage()== 10);
+		assertTrue(pr.getBeginPage()==11);
+		assertTrue(pr.getEndPage()== 20);
 	}
 }

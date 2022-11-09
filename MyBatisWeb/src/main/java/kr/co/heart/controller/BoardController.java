@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -23,7 +24,33 @@ import kr.co.heart.service.BoardService;
 public class BoardController {
 	
 	@Autowired //의존성 주입
-	BoardService boardService; 
+	BoardService boardService;
+	
+//	@PostMapping("/remove")
+	public String remove(Integer bno, Integer page, Integer pageSize) {
+		
+		return "redirect:/board/list";
+	}
+	
+	@GetMapping("/read")
+	public String read(Integer bno,Integer page, Integer pageSize, Model m) {
+		try {
+			BoardDto boardDto = boardService.read(bno);
+			
+			//view에서 출력해주기 위해 모델에 저장
+//			m.addAttribute("boardDto", boardDto);
+			m.addAttribute(boardDto);
+			
+			m.addAttribute("page", page);
+			m.addAttribute("pageSize", pageSize);
+			
+		}catch(Exception e) {
+			e.printStackTrace();
+			//예외발생시 목록으로 리다이렉트 처리
+			return "redirect:/board/list";
+		}
+		return "board";
+	}
 
 	@GetMapping("/list") 
 	public String list(@RequestParam(defaultValue = "1") Integer page, 
@@ -32,6 +59,7 @@ public class BoardController {
 						HttpServletRequest request) {
 		if(!loginCheck(request))
 			return "redirect:/login/login?toURL=" + request.getRequestURL();
+		
 		try {
 			int totalCnt = boardService.getcount();
 			m.addAttribute("totalCnt", totalCnt);
@@ -50,6 +78,9 @@ public class BoardController {
 
 			m.addAttribute("list", list);
 			m.addAttribute("pr", pageResolver);
+			
+			m.addAttribute("page", page);
+			m.addAttribute("pageSize", pageSize);
 			
 		}catch(Exception e) {
 			e.printStackTrace();

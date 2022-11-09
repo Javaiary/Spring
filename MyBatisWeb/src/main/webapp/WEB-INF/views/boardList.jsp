@@ -4,7 +4,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
     
 <c:set var = "loginId" value = "${sessionScope.id}"/>
-<c:set var = "loginout" value = "${loginId==null? 'Login' : 'Logout' }"/>
+<c:set var = "loginout" value = "${loginId==null? 'Login' : 'id:'+=loginId }"/>
 <c:set var = "loginoutlink" value ="${loginId == null? '/login/login' : '/login/logout' }" />
     
 <!DOCTYPE html>
@@ -106,7 +106,7 @@
 			<li><a href="<c:url value='/register/add'/>">SignUp</a></li>
 			<li><a href=""><i class = "fa fa-search small"></i></a></li>
 		</ul>
-	  
+	  </div>
 	<script type = "text/javascript">
   	
   	</script>
@@ -130,7 +130,9 @@
   					<tr>
   						<td class="no">${boardDto.bno}</td>
   						<td class="title">
-  							<a href="">${boardDto.title }</a>
+  							<a href="<c:url value="/board/read?bno=${boardDto.bno }
+  							&page=${page }
+							&pageSize=${pageSize }"/>">${boardDto.title}</a>
   						</td>
   						<td class="writer">${boardDto.writer }</td>
 <%--   							<c:choose>
@@ -156,7 +158,7 @@
 							<a class = "page" href ="<c:url value="/board/list?page=${pr.beginPage-1 }"/>"> < </a>
 						</c:if>
 						<c:forEach var = "i" begin = "${pr.beginPage }" end= "${pr.endPage }">
-							<a class = "page" href="<c:url value = "board/list?page=${i }"/>"> ${i }</a>
+							<a class = "page" href="<c:url value = "/board/list?page=${i }"/>"> ${i }</a>
 						</c:forEach>
 						<c:if test="${pr.showNext}">
 							<a class = "page" href ="<c:url value="/board/list?page=${pr.endPage+1 }"/>"> > </a>

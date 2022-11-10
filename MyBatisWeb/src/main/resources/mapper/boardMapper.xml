@@ -26,6 +26,11 @@
 		delete from t_board
 	</delete>
 	
+	<delete id="delete" parameterType="map">
+		delete from t_board 
+		where bno = #{bno} and writer = #{writer}
+	</delete>
+	
 	<insert id="insert" parameterType="BoardDto">
 		insert into t_board 
 			(title, content, writer)
@@ -47,6 +52,14 @@
 		update t_board 
 		set view_cnt = view_cnt +1
 		where bno = #{bno}
+	</update>
+	
+	<!-- mybatis-config에 선언해놓은 alias 사용 가능 (BoardDto == kr.co.heart...)  -->
+	<update id="update" parameterType="BoardDto">
+		UPDATE t_board
+		SET title= #{title} , content=#{content}, up_date =now()
+		WHERE bno= #{bno} and writer =#{writer};
+			
 	</update>
 	
 </mapper>

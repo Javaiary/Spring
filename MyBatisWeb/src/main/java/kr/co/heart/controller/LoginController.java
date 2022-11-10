@@ -79,9 +79,12 @@ public class LoginController {
 
 
 	private boolean loginCheck(String id, String pwd) {
-		// TODO Auto-generated method stub
-		
 		User user = userDao.selectUser(id);
+		
+		System.out.println(user);
+
+
+		
 		if(user == null) return false;
 		return user.getPwd().equals(pwd);
 	}

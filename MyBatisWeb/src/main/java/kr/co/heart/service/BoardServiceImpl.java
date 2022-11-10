@@ -1,5 +1,6 @@
 package kr.co.heart.service;
 
+import java.util.EmptyStackException;
 import java.util.List;
 import java.util.Map;
 
@@ -35,5 +36,23 @@ public class BoardServiceImpl implements BoardService{
 		boardDao.increaseViewCnt(bno);
 		
 		return boardDto;
+	}
+
+	@Override
+	public int remove(Integer bno, String writer) throws Exception {
+		
+		return boardDao.delete(bno,writer);
+	}
+
+	@Override
+	public int write(BoardDto boardDto) throws Exception{
+		return boardDao.insert(boardDto);
+//		throw new Exception();
+	}
+
+	@Override
+	public int modify(BoardDto boardDto) throws Exception {
+		// TODO Auto-generated method stub
+		return boardDao.update(boardDto);
 	}
 }

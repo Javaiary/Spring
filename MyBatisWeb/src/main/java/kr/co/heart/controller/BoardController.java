@@ -13,11 +13,11 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import kr.co.heart.domain.BoardDto;
 import kr.co.heart.domain.PageResolver;
+import kr.co.heart.domain.SearchItem;
 import kr.co.heart.service.BoardService;
 
 @Controller
@@ -47,7 +47,7 @@ public class BoardController {
 			m.addAttribute(boardDto);
 			m.addAttribute("page", page);
 			m.addAttribute("pageSize", pageSize);
-			m.addAttribute("msg", "MOD_OK");
+			m.addAttribute("msg", "MOD_ERR");
 			return "board";	//수정등록하려던 내용을 보여줌
 			
 		}
@@ -94,6 +94,7 @@ public class BoardController {
 			e.printStackTrace();
 			msg = "DEL_ERR";
 		}
+		
 		// 삭제 후 메시지가 한 번만 나와야 함(model(데이터공유) 역할을 해주는 redirectAttributes사용)
 		// redirectAttributes에 저장하면 메시지가 한 번만 나옴
 		// addFlashAtttibute() : 한 번 저장 후 소멸. 세션에 잠깐 저장
@@ -125,33 +126,34 @@ public class BoardController {
 	}
 
 	@GetMapping("/list")
-	public String list(@RequestParam(defaultValue = "1") Integer page,
-			@RequestParam(defaultValue = "10") Integer pageSize, // parameter는 무조건 문자열로 작성(자동형변환)
-			Model m, HttpServletRequest request) {
+	public String list(
+//			@RequestParam(defaultValue = "1") Integer page,
+//			@RequestParam(defaultValue = "10") Integer pageSize, // parameter는 무조건 문자열로 작성(자동형변환)
+			SearchItem sc,
+			Model m, HttpServletRequest request
+			) {
 		if (!loginCheck(request))
 			return "redirect:/login/login?toURL=" + request.getRequestURL();
 
 		try {
-			int totalCnt = boardService.getcount();
+			int totalCnt = boardService.getSearchSelectCnt(sc);
 			m.addAttribute("totalCnt", totalCnt);
 
-			PageResolver pageResolver = new PageResolver(totalCnt, page, pageSize);
-			if (page < 0 || page > pageResolver.getTotalPage())
-				page = 1;
-			if (pageSize < 0 || pageSize > 50)
-				pageSize = 10;
+			PageResolver pageResolver = new PageResolver(totalCnt, sc);
+//			if (page < 0 || page > pageResolver.getTotalPage())
+//				page = 1;
+//			if (pageSize < 0 || pageSize > 50)
+//				pageSize = 10;
 
-			Map map = new HashMap();
-			map.put("offset", (page - 1) * pageSize);
-			map.put("pageSize", pageSize);
+//			Map map = new HashMap();
 
-			List<BoardDto> list = boardService.getPage(map);
+			List<BoardDto> list = boardService.getSearchResultPage(sc);
 
 			m.addAttribute("list", list);
 			m.addAttribute("pr", pageResolver);
 
-			m.addAttribute("page", page);
-			m.addAttribute("pageSize", pageSize);
+//			m.addAttribute("page", sc.getPage());
+//			m.addAttribute("pageSize", sc.getPageSize());
 
 		} catch (Exception e) {
 			e.printStackTrace();

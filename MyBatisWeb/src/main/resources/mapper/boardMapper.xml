@@ -48,6 +48,23 @@
 			limit #{pageSize} offset #{offset}
 	</select>
 	
+	<select id="searchResultCnt" parameterType="SearchItem" resultType="int">
+		select count(*)
+		from t_board
+		where true
+		and title like concat('%', #{keyword}, '%');
+	</select>
+	
+	<!-- 페이지 네비 표시를 위해 검색된 결과수 필요 -->
+	<select id="searchSelectPage" parameterType="SearchItem" resultType="BoardDto">
+		select bno ,title ,"content" ,writer ,view_cnt ,reg_date  
+		from t_board
+		where true
+		and title like concat('%', #{keyword}, '%')
+		order by reg_date desc, bno desc
+		limit #{pageSize} offset #{offset}
+	</select>
+	
 	<update id="increaseViewCnt" parameterType="int"> 
 		update t_board 
 		set view_cnt = view_cnt +1

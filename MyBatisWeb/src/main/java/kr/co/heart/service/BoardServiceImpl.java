@@ -1,6 +1,5 @@
 package kr.co.heart.service;
 
-import java.util.EmptyStackException;
 import java.util.List;
 import java.util.Map;
 
@@ -9,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import kr.co.heart.dao.BoardDao;
 import kr.co.heart.domain.BoardDto;
+import kr.co.heart.domain.SearchItem;
 
 @Service
 public class BoardServiceImpl implements BoardService{
@@ -54,5 +54,17 @@ public class BoardServiceImpl implements BoardService{
 	public int modify(BoardDto boardDto) throws Exception {
 		// TODO Auto-generated method stub
 		return boardDao.update(boardDto);
+	}
+
+	@Override
+	public List<BoardDto> getSearchResultPage(SearchItem sc) throws Exception {
+		
+		return boardDao.searchSelectPage(sc);
+	}
+
+	@Override
+	public int getSearchSelectCnt(SearchItem sc) throws Exception {
+		// TODO Auto-generated method stub
+		return boardDao.searchResultCnt(sc);
 	}
 }

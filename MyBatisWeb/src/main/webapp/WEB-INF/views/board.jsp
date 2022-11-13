@@ -93,7 +93,7 @@
 			$(document).ready(function() {
   				//css선택자와 동일하게 사용 가능
 			$("#listBtn").on("click", function() {
-				location.href ="<c:url value='/board/list?page=${page}&pageSize=${pageSize}' />";
+				location.href ="<c:url value='/board/list${pr.sc.getQueryString() }' />";
 			})
 			
 			//$() 괄호안의 요소를 찾음
@@ -169,10 +169,10 @@
   			<textarea rows="20" name="content" ${mode=="new" ? "":"readonly='readonly'"}>${boardDto.content }</textarea>
   			
   			<c:if test="${mode eq 'new' }">
-  				<button type="button" id="writeBtn" class="btn btn-write"><i class="fa fa-pencil"></i> 등록</button>
+  				<button type="button" id="writeBtn" class="btn btn-write"><i class="fa fa-pen"></i> 등록</button>
   			</c:if>
   			<c:if test="${mode ne 'new' }">
-  				<button type="button" id="writeNewBtn" class="btn btn-write"><i class="fa fa-pencil"></i> 글쓰기</button>
+  				<button type="button" id="writeNewBtn" class="btn btn-write"><i class="fa fa-pen"></i> 글쓰기</button>
   			</c:if>
   			<c:if test="${boardDto.writer eq loginId }">
   				<button type = "button" id = "modifyBtn" class="btn btn-modify"><i class="fa fa-edit"></i> 수정</button>

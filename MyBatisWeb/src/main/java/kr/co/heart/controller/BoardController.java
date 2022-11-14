@@ -1,8 +1,6 @@
 package kr.co.heart.controller;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -106,7 +104,7 @@ public class BoardController {
 	}
 
 	@GetMapping("/read")
-	public String read(Integer bno, Integer page, Integer pageSize, Model m) {
+	public String read(Integer bno, SearchItem sc, Model m) {
 		try {
 			BoardDto boardDto = boardService.read(bno);
 
@@ -114,8 +112,6 @@ public class BoardController {
 //			m.addAttribute("boardDto", boardDto);
 			m.addAttribute(boardDto);
 
-			m.addAttribute("page", page);
-			m.addAttribute("pageSize", pageSize);
 
 		} catch (Exception e) {
 			e.printStackTrace();

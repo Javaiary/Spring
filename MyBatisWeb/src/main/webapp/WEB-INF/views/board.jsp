@@ -93,7 +93,7 @@
 			$(document).ready(function() {
   				//css선택자와 동일하게 사용 가능
 			$("#listBtn").on("click", function() {
-				location.href ="<c:url value='/board/list${pr.sc.getQueryString() }' />";
+				location.href ="<c:url value='/board/list${searchItem.queryString }' />";
 			})
 			
 			//$() 괄호안의 요소를 찾음
@@ -101,7 +101,7 @@
 				if(!confirm("정말로 삭제하시겠습니까?")) return;
 				
 				let form = $("#form")
-				form.attr("action","<c:url value='/board/remove?page=${page}&pageSize=${pageSize}' />")
+				form.attr("action","<c:url value='/board/remove${searchItem.queryString}' />")
 				form.attr("method", "post")
 				form.submit()
 			})

@@ -201,7 +201,7 @@
   					<tr>
   						<td class="no">${boardDto.bno}</td>
   						<td class="title">
-  							<a href="<c:url value="/board/read?${pr.sc.queryString}&bno=${boardDto.bno }"/>">
+  							<a href="<c:url value="/board/read${pr.sc.queryString}&bno=${boardDto.bno }"/>">
   							${boardDto.title}</a>
   						</td>
   						<td class="writer">${boardDto.writer }</td>

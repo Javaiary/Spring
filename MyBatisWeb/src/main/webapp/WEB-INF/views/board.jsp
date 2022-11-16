@@ -91,12 +91,52 @@
 	  
 	<script type = "text/javascript">
 			$(document).ready(function() {
-  				//css선택자와 동일하게 사용 가능
+				
+			// 댓글기능--------------------------------------------------------
+				let bno= 250
+		  		
+		  		let showList = function(bno){
+		  			$.ajax({
+		  				type: 'GET'	, 	//요청 메서드
+		  				url: '/heart/comments?bno='+bno	,	//요청 URI
+		  				success : function(result) {		//서버로부터 response가 도착하면 호출될 함수
+							$("#commentList").html(toHtml(result))	//result는 서버가 전송한 데이터(Controller 에서 전송)
+						},
+						error: function() {alert("error")} 	//에러 발생시 호출될 함수 				
+		  			})
+		  		}	
+				
+				let toHtml =function(comments){
+		  			let tmp = "<ul>"
+		  			
+		  			comments.forEach(function(comment){
+		  				tmp += '<li data-cno=' +comment.cno
+						tmp += ' data-bno=' +comment.bno
+		  				tmp += ' data-pcno=' +comment.pcno + '>'
+		  				tmp += ' commenter=<span class="commenter">' +comment.commenter +'</span>'
+		  				tmp += ' comment=<span class="comment">' +comment.comment +'</span>'
+		  				tmp += ' <button class="delBtn">삭제</button>'
+		  				tmp += '</li>'
+		  			})
+		  			return tmp += "</ul>"
+		  		}
+				
+				
+			//이벤트 발생 -------------------------------------------//css선택자와 동일하게 사용 가능
+			$("#sendBtn").click(function(){			//sendBtn 클릭 이벤트가 발생하면
+  				showList(bno)						//실행될 함수
+  			})	
+  			//$(".delBtn").click(function(){   [send] 버튼 클릭 후 [삭제]버튼이 보이므로 이벤트 활성화가 안됨
+  			$("#commentList").on("click", ".delBtn", function(){	//commentList안에 있는 delBtn에 클릭이벤트 등록 필요
+  				//alert("삭제버튼 클릭됨")	
+  			})
+
+
 			$("#listBtn").on("click", function() {
 				location.href ="<c:url value='/board/list${searchItem.queryString }' />";
 			})
 			
-			//$() 괄호안의 요소를 찾음
+				//$() 괄호안의 요소를 찾음
 			$("#removeBtn").on("click", function() {
 				if(!confirm("정말로 삭제하시겠습니까?")) return;
 				
@@ -182,6 +222,9 @@
   		
   			<button type ="button" id="listBtn" class="btn btn-list"><i class="fa fa-bars"></i> 목록</button>
   		</form>
+  		
+  		<button id= "sendBtn" type="button">SEND</button>
+  		<div id="commentList"></div>
   	</div>
   	
   	</body>

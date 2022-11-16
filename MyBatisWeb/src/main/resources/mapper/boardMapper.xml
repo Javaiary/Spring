@@ -57,7 +57,7 @@
 		select count(*) from t_board
 	</select>
 	
-	<select id = "selectPage" parameterType="map" resultType="BoardDto">
+ 	<select id = "selectPage" parameterType="map" resultType="BoardDto">
 		<include refid="selectFromBoard"/>
 			order by reg_date desc, bno desc
 			limit #{pageSize} offset #{offset}
@@ -93,5 +93,13 @@
 		WHERE bno= #{bno} and writer =#{writer};
 			
 	</update>
+	
+	<!-- 맵에 저장된 value들을 파라미터로 불러올 수 있음 -->
+	<update id="updateCommentCnt" parameterType="map">
+		update t_board 
+		set comment_cnt = comment_cnt + #{cnt}
+		where bno =#{bno};
+	</update>
+	
 	
 </mapper>

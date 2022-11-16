@@ -15,7 +15,10 @@ public class SimpleRestController {
 	public String ajax() {
 		return "ajax";
 	}
-	
+	@GetMapping("/test")
+	public String test() {
+		return "test";	//url을 요청했을 때 view를 리턴하고 view에서 댓글을 보여줌
+	}
 	@ResponseBody //응답 바디
 	@PostMapping("/send")	// ajax url과 맞춰줌
 	public Person test(@RequestBody Person p) {

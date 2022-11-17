@@ -36,6 +36,12 @@
   			$("#sendBtn").click(function(){			//sendBtn 클릭 이벤트가 발생하면
   				//showList(bno)						//실행될 함수
   				let comment =$("input[name=comment]").val();
+  			
+  			if(comment.trim() ==''){
+  				alert("댓글을 입력해 주세요.")
+  				$("input[name=comment]").focus()
+  				return 
+  			}
   				
 	  			$.ajax({
 	  				type: 'post', 			//요청 메서드

@@ -64,14 +64,14 @@ import kr.co.heart.domain.BoardDto;
 		map.put("offset", 0);
 		map.put("pageSize", 3);
 		
-		List<BoardDto> list= boardDao.selectPage(map);
-		assertTrue(list.get(0).getTitle().equals("Pioneering10"));
+//		List<BoardDto> list= boardDao.selectPage(map);
+//		assertTrue(list.get(0).getTitle().equals("Pioneering10"));
 //		assertTrue(list.get(1).getTitle().equals("Pioneering9"));
 //		assertTrue(list.get(9).getTitle().equals("Pioneering1"));
-		
-		for(BoardDto bd : list) {
-			System.out.println(bd);
-		}
+//		
+//		for(BoardDto bd : list) {
+//			System.out.println(bd);
+//		}
 	}
 	
 	

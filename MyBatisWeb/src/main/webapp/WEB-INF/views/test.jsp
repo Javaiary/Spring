@@ -14,6 +14,7 @@
   </head>
   <body>
   	<h2>CommentTest</h2>
+  	comment: <input type="text" name ="comment">
   	<button id= "sendBtn" type="button">SEND</button>
   	<div id="commentList"></div>
   	
@@ -33,11 +34,26 @@
   		
   		$(document).ready(function(){				//페이지 진입시 무조건 실행
   			$("#sendBtn").click(function(){			//sendBtn 클릭 이벤트가 발생하면
-  				showList(bno)						//실행될 함수
+  				//showList(bno)						//실행될 함수
+  				let comment =$("input[name=comment]").val();
+  				
+	  			$.ajax({
+	  				type: 'post', 			//요청 메서드
+	  				url: '/heart/comments?bno=' +bno,		//요청 URL
+	  				headers: {"content-type" : "application/json"},	//요청 헤더
+	  				dataType: 'text', 		//전송받을 데이터의 타입
+	  				data: JSON.stringify({bno:bno, comment:comment}), 	//서버로 전송할 데이터,stringify()로 직렬화 필요
+	  				success: function(result) {		//서버로부터 응답이 도착하면 호출될 함수
+						alert(result)	
+	  					showList(bno)
+					} ,
+					error: function(){alert("error")}	//에러 발생시 호출될 함수
+	  			})
   			})
   			$("#commentList").on("click", ".delBtn", function(){
   				//alert("삭제버튼 클릭됨")
   				
+  				//this = 버튼 
   				let cno = $(this).parent().attr("data-cno")		//<li>태그는 <button>의 부모임
   				let bno = $(this).parent().attr("data-bno")		//attr 중 사용자 정의 attr를 선택함
   				

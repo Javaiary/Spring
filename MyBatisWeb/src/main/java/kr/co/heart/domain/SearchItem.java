@@ -68,7 +68,7 @@ public class SearchItem {
 		//PAGESIZE가 MIN MAX 사이값을 갖도록(둘중 작은값, 큰값)
 		this.pageSize = max(MIN_PAGE_SIZE, min(this.pageSize, MAX_PAGE_SIZE));
 	}
-;
+
 	public String getOption() {
 		return option;
 	}

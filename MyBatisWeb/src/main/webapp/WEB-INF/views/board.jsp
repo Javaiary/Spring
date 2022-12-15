@@ -91,7 +91,61 @@
 	  
 	<script type = "text/javascript">
 			$(document).ready(function() {
+		  		let showList = function(bno){
+		  			$.ajax({
+		  				type: 'GET'	, 	//요청 메서드
+		  				url: '/heart/comments?bno='+bno	,	//요청 URI
+		  				success : function(result) {		//서버로부터 response가 도착하면 호출될 함수
+							$("#commentList").html(toHtml(result))	//result는 서버가 전송한 데이터(Controller 에서 전송)
+						},
+						error: function() {alert("error")} 	//에러 발생시 호출될 함수 				
+		  			})
+		  		}	
 				
+				//let bno= 250
+				let bno = $("input[name=bno]").val();
+				showList(bno)
+				
+	 			$("#modBtn").click(function(){			//sendBtn 클릭 이벤트가 발생하면
+	  									//실행될 함수
+	  				let cno = $(this).attr("data-cno")
+	  				let comment =$("input[name=comment]").val()
+	  				
+	  	  			if(comment.trim() ==''){
+	  	  				alert("댓글을 입력해 주세요.")
+	  	  				$("input[name=comment]").focus()
+	  	  				return 
+	  	  			}
+	  				
+		  			$.ajax({
+		  				type: 'PATCH', 			//요청 메서드
+		  				url: '/heart/comments/' +cno,		//요청 URL
+		  				headers: {"content-type" : "application/json"},	//요청 헤더
+		  				dataType: 'text', 		//전송받을 데이터의 타입
+		  				data: JSON.stringify({cno:cno, comment:comment}), 	//서버로 전송할 데이터,stringify()로 직렬화 필요
+		  				success: function(result) {		//서버로부터 응답이 도착하면 호출될 함수
+							alert(result)	
+		  					showList(bno)
+						} ,
+						error: function(){alert("error")}	//에러 발생시 호출될 함수
+		  			})
+	  			})
+	  			$("#commentList").on("click", ".modBtn", function(){
+	  				//alert("삭제버튼 클릭됨")
+	  				
+	  				//this = 버튼 
+	  				let cno = $(this).parent().attr("data-cno")		//<li>태그는 <button>의 부모임
+	  				
+	  				//클릭된 수정버튼의 부모(li)dml span태그의 텍스트만 가져옴
+	  				let comment = $("span.comment", $(this).parent()).text()
+	  				
+	  				//1. comment의 내용을 input(name속성이 comment인)에 출력해주기
+	  				$("input[name=comment]").val(comment)
+	  				
+	  				//2. cno 전달하기(속성으로 넣어줌)
+	  				$("#modBtn").attr("data-cno", cno)
+	  			})
+	  			
 				$("#insertBtn").click(function(){			
 					let comment =$("input[name=comment]").val();
 		  			
@@ -114,8 +168,7 @@
 							error: function(){alert("error")}	//에러 발생시 호출될 함수
 			  			})
 			})
-				
-				let bno= 250
+
 				
 	  			$("#commentList").on("click", ".delBtn", function(){
 	  				//alert("삭제버튼 클릭됨")
@@ -138,16 +191,7 @@
 	  			})
 				
 		  		
-		  		let showList = function(bno){
-		  			$.ajax({
-		  				type: 'GET'	, 	//요청 메서드
-		  				url: '/heart/comments?bno='+bno	,	//요청 URI
-		  				success : function(result) {		//서버로부터 response가 도착하면 호출될 함수
-							$("#commentList").html(toHtml(result))	//result는 서버가 전송한 데이터(Controller 에서 전송)
-						},
-						error: function() {alert("error")} 	//에러 발생시 호출될 함수 				
-		  			})
-		  		}	
+
 				
 				let toHtml =function(comments){
 		  			let tmp = "<ul style = 'display : block;'>"
@@ -160,17 +204,20 @@
 		  				tmp += ' commenter=<span class="commenter">' +comment.commenter +'</span>'
 		  				tmp += ' comment=<span class="comment">' +comment.comment +'</span>'
 		  				tmp += ' <button class="delBtn">삭제</button>'
-		  				tmp += '</li>'
+		  	  			tmp += ' <button class="modBtn">수정</button>'
+						tmp += '</li>'
 		  			})
 		  			return tmp += "</ul>"
 		  		}
 				
 				
 			//이벤트 발생 -------------------------------------------//css선택자와 동일하게 사용 가능
-			$("#sendBtn").click(function(){			//sendBtn 클릭 이벤트가 발생하면
+			
+			
+			/* $("#sendBtn").click(function(){			//sendBtn 클릭 이벤트가 발생하면
   				showList(bno)						//실행될 함수
 
-  			})	
+  			})	 */
   			//$(".delBtn").click(function(){   [send] 버튼 클릭 후 [삭제]버튼이 보이므로 이벤트 활성화가 안됨
   			$("#commentList").on("click", ".delBtn", function(){	//commentList안에 있는 delBtn에 클릭이벤트 등록 필요
   				//alert("삭제버튼 클릭됨")	
@@ -245,9 +292,9 @@
 
   	
   	<div class="container">
-  	<!-- mode : (new) 개발자가 임의로 수정해 주는 값, ???model에서 수정 가능???? -->
+  	<!-- mode : (new) 개발자가 임의로 수정해 주는 값, model에 저장해놓고 사용 -->
   		<h2 class="writing-header">게시판 ${mode=="new" ? "글쓰기" : "읽기" }</h2>
-  		<form id = "form" class="frm" action="" method="post"><!--폼의 수정이 있을 수 있기때문에 포스트방식 사용-->
+  		<form id = "form" class="frm" action="" method="post">	<!--폼의 수정이 있을 수 있기때문에 포스트방식 사용-->
   			<input type="hidden" name="bno" value="${boardDto.bno }">
   			<!-- readonly 속성 : 수정 불가 -->
   			<input type="text" name = "title" value="${boardDto.title }" ${mode=="new" ? "":"readonly='readonly'" }><br>
@@ -268,7 +315,9 @@
   			<button type ="button" id="listBtn" class="btn btn-list"><i class="fa fa-bars"></i> 목록</button>
   		</form>
   		
-  	<button id= "sendBtn" type="button">SEND</button><br/>
+  	<button id= "sendBtn" type="button">SEND</button>
+  	<button id= "modBtn" type="button">수정하기</button><br/>
+  	
   	<div id="commentList"></div>
   	
 	comment: <input type="text" name ="comment"><br/>

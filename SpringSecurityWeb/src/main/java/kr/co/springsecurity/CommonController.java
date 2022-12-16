@@ -16,4 +16,18 @@ public class CommonController {
 		log.info("access Denied :" + auth);
 		model.addAttribute("msg", "접근 거부됨");
 	}
+	
+	@GetMapping("/loginForm")
+	  public void loginInput(String error, String logout, Model model) {
+	    log.info("error: " + error);
+	    log.info("logout: " + logout);
+
+	    if (error != null) {
+	      model.addAttribute("error", "Login Error Check Your Account");
+	    }
+	    if (logout != null) {
+	      model.addAttribute("logout", "Logout!!");
+	    }
+	  }
+
 }

@@ -18,6 +18,8 @@
 		<!-- 로그인 성공 처리 -->
 		<!-- <security:form-login /> -->
 		<security:form-login login-page="/loginForm" authentication-success-handler-ref="customLoginSuccess"/>
+		<!-- 로그아웃 처리 -->
+		<security:logout logout-url="/logoutForm" invalidate-session="true"/>
 			  	
   </security:http>
   

@@ -6,11 +6,15 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Insert title here</title>
+    <title>로그아웃 페이지</title>
   </head>
   <body>
-	  <h1>/sample/admin page</h1>
-	 	<button type = "button" onclick="location.href='/springsecurity/logoutForm'">로그아웃</button>
+	  <h1> Logout Page</h1>
+ 
+	<form action="/springsecurity/logoutForm" method='post'>
+	<input type="hidden"name="${_csrf.parameterName}"value="${_csrf.token}"/>
+	<button>로그아웃</button>
+	</form>
 	  
   </body>
 </html>

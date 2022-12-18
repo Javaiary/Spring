@@ -10,5 +10,7 @@
   </head>
   <body>
 	  <h1>/sample/member page</h1>
+	  <button type = "button" onclick="location.href='/springsecurity/logoutForm'">로그아웃</button>
+	  
   </body>
 </html>

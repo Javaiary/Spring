@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+ <mapper namespace="kr.co.springsecurity.member.memberMapper">
+  
+	<resultMap type="MemberDto" id="memberMap">
+        <id property="user_id" column="user_id"/>
+        <result property="user_id" column="user_id"/>
+        <result property="user_name" column="user_name"/>
+        <result property="user_pw" column="user_pw"/>
+        <result property="user_gender" column="user_gender"/>
+        <result property="user_birth_date" column="user_birth_date"/>
+        <result property="user_email" column="user_email"/>
+        <result property="user_phone_number" column="user_phone_number"/>
+        <result property="user_postcode" column="user_postcode"/>
+        <result property="user_rNameAddr" column="user_rnameaddr"/>
+        <result property="user_detailAddr" column="user_detailaddr"/>
+        <result property="user_regdate" column="user_regdate"/>
+        <result property="user_grade" column="user_grade"/>
+        <result property="user_social_type" column="user_social_type"/>
+        <collection property="authList" resultMap="authMap"></collection>
+     </resultMap>
+     
+     <resultMap type="AuthDto" id="authMap">
+        <result property="user_id" column="user_id"/>
+        <result property="auth" column="auth"/>
+     </resultMap>
+     
+    <select id="read" resultMap="memberMap">
+	   select tb_user.user_id, user_pw, user_name, user_gender, user_birth_date, user_email, user_phone_number, user_postcode, 
+	           user_rNameAddr, user_detailAddr, user_regdate, user_grade, user_social_type, user_auth.auth
+	   from tb_user LEFT OUTER JOIN user_auth on tb_user.user_id = user_auth.user_id
+	   where tb_user.user_id = #{user_id}
+  </select> 
+ </mapper>

@@ -3,6 +3,8 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://www.springframework.org/security/tags" prefix="sec" %>
 <%@ page import = "java.util.*" %>
+<%@ taglib uri="http://www.springframework.org/security/tags" prefix="sec" %>
+
     
 <!DOCTYPE html>
 <html>
@@ -18,6 +20,13 @@
   	<h2><c:out value="${SPRING_SECURITY_403_EXCEPTION.getMessage()}"/></h2>
  
 	<h2><c:out value="${msg}"/></h2>
+	
+	<p>principal : <sec:authentication property="principal"/></p>
+	<p>MemberDTO : <sec:authentication property="principal.member"/></p>
+	<p>사용자이름 : <sec:authentication property="principal.member.user_name"/></p>
+	<p>사용자아이디 : <sec:authentication property="principal.username"/></p>
+	<p>사용자 권한 리스트  : <sec:authentication property="principal.member.authList"/></p>
+	
 	  
   </body>
 </html>

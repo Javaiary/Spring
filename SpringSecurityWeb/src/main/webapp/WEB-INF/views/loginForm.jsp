@@ -52,7 +52,7 @@
 								<label class="form-check-label" for="saveId">아이디 저장</label>
 							</div>
 							<div class="form-check-inline">
-								<input class="form-check-input" type="checkbox" name="autoLogin" id="autoLogin" value="option2">
+								<input class="form-check-input" type="checkbox" name="remember-me" id="autoLogin" >
 								<label class="form-check-label" for="autoLogin">자동로그인</label>
 							</div>
 							<button type="submit" class="btn btn-primary btn-sm float-end" >로그인</button>

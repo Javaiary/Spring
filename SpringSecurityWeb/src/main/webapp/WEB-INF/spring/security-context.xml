@@ -13,6 +13,7 @@
 <bean id="customUserDetailsService" class="kr.co.security.CustomUserDetailsService"></bean>
 <bean id="bcryptPasswordEncoder" class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder" />
 
+
   <security:http>
 	  	<security:intercept-url pattern="/sample/all" access="permitAll"/>
 	    <security:intercept-url pattern="/sample/member" access="hasRole('ROLE_MEMBER')"/>
@@ -25,7 +26,10 @@
 		<!-- <security:form-login /> -->
 		<security:form-login login-page="/loginForm" authentication-success-handler-ref="customLoginSuccess"/>
 		<!-- 로그아웃 처리 -->
-		<security:logout logout-url="/logoutForm" invalidate-session="true"/>
+		<security:logout logout-url="/logoutForm" invalidate-session="true" delete-cookies="remember-me,JSESSION_ID"/>
+		<!-- 자동로그인 처리 : 60*60*24*7 : 총 7일 -->
+		<security:remember-me data-source-ref="dataSource" token-validity-seconds="604800" />
+		
 			  	
   </security:http>
   

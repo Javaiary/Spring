@@ -15,13 +15,13 @@
 	   
 	<sec:authorize access="isAnonymous()">
 	 
-	  <a href="/customLogin">로그인</a>
+	  <a href="/springsecurity/loginForm">로그인</a>
 	 
 	</sec:authorize>
 	 
 	<sec:authorize access="isAuthenticated()">
 	 
-	  <a href="/customLogout">로그아웃</a>
+	  <a href="/springsecurity/logoutForm">로그아웃</a>
 	 
 	</sec:authorize>
 	  
